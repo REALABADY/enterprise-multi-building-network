@@ -1,26 +1,30 @@
 # Enterprise Multi-Building Network Infrastructure
 
-> Hands-on Cisco Packet Tracer project focused on enterprise network engineering, switching, routing, segmentation, troubleshooting, redundancy, and validation.
+A hands-on Cisco Packet Tracer project demonstrating enterprise network design, Layer 2/Layer 3 connectivity, segmentation, routing, redundancy, security controls, and systematic troubleshooting.
 
-## Overview
-This project demonstrates the design and implementation of a multi-building enterprise network. The primary focus is network engineering: Layer 2/Layer 3 connectivity, VLAN segmentation, dynamic routing, gateway redundancy, link resilience, access control, and systematic troubleshooting.
+## Project Overview
 
-The topology connects two buildings through a routed infrastructure and includes redundant core switching, an edge router, a Cisco ASA firewall, and a simulated ISP/Internet segment.
+This project models a two-building enterprise network with redundant core switching, routed connectivity, gateway redundancy, an edge router, Cisco ASA firewall integration, and a simulated ISP/Internet segment.
 
-## Network Engineering Objectives
-- Segment departments and services using VLANs.
-- Provide inter-VLAN communication and automatic addressing with DHCP.
-- Implement dynamic routing with OSPF.
-- Provide default-gateway redundancy using HSRP.
-- Increase link resilience with LACP EtherChannel.
-- Control redundant Layer 2 paths using STP root primary/secondary roles.
-- Apply ACL-based traffic controls and network segmentation.
+The repository is intended as technical portfolio evidence for Junior Network Engineer, Network Support Engineer, NOC, and Network Administrator roles.
+
+## Objectives
+
+- Design a scalable multi-building enterprise topology.
+- Segment departments and services with VLANs.
+- Provide inter-VLAN connectivity.
+- Provide centralized DHCP services.
+- Implement OSPF dynamic routing.
+- Provide gateway redundancy with HSRP.
+- Build resilient Layer 2 paths with STP and LACP EtherChannel.
+- Apply ACL-based traffic controls.
 - Integrate a Cisco ASA firewall and simulated Internet edge.
-- Provide dedicated Server and Wireless VLANs.
+- Validate connectivity and troubleshoot failures using Cisco IOS/ASA commands.
 
-## VLAN and IP Addressing
+## VLAN & IP Addressing
+
 | VLAN | Department / Service | Network |
-|---|---|---|
+|---:|---|---|
 | 10 | Reception | 192.168.10.0/27 |
 | 20 | Sales | 192.168.20.0/27 |
 | 30 | Finance | 192.168.30.0/27 |
@@ -28,109 +32,103 @@ The topology connects two buildings through a routed infrastructure and includes
 | 50 | Management | 192.168.50.0/27 |
 | 60 | Servers | 192.168.60.0/27 |
 | 70 | Wireless | 192.168.70.0/27 |
-| 80 | Additional segmented network | 192.168.80.0/27 |
-| 90 | Additional segmented network | 192.168.90.0/27 |
+| 80 | Printer | 192.168.80.0/27 |
+| 90 | CCTV | 192.168.90.0/27 |
+
+### VTP Domains
+
+- Building 1: BOLDING1
+- Building 2: BOLDING2
+
+The two buildings are maintained as separate VTP domains.
 
 ## Architecture
-The design uses two redundant core switches in each building. Core switches provide Layer 3 connectivity and HSRP-based gateway redundancy. Redundant links between core devices are bundled using LACP EtherChannel, while STP controls Layer 2 forwarding and failover paths.
 
-The routed edge connects the internal enterprise infrastructure to a Cisco ASA firewall and a simulated ISP/Internet segment.
+Each building uses two core switches. The core layer provides Layer 3 connectivity and HSRP gateway redundancy. Redundant Layer 2 links are bundled with LACP EtherChannel, while STP controls loop prevention and forwarding roles.
 
-## Technologies Implemented
+The enterprise edge connects the internal network to a Cisco ASA firewall and a simulated ISP/Internet segment.
 
-### Switching and Segmentation
+## Technologies
+
+### Switching & Segmentation
 - VLANs
 - 802.1Q trunking
 - Network segmentation
-- Spanning Tree Protocol
 - STP Root Primary / Secondary
+- PortFast
+- BPDU Guard
 - LACP EtherChannel
-- PortFast and BPDU Guard
 
-### Routing and Network Services
+### Routing & Services
 - Inter-VLAN routing
 - Static routing
 - OSPF
 - DHCP
 - HSRP
 
-### Network Security and Edge
+### Security & Edge
 - Extended ACLs
 - SERVER-ACL
 - PRINTER-ACL
 - CCTV-ACL
 - SALES-ACL
-- Cisco ASA Firewall
+- Cisco ASA
 - NAT/PAT
 - Simulated ISP/Internet edge
 
-### Wireless and Servers
+### Wireless & Servers
 - Dedicated Server VLAN
-- Dedicated Wireless VLAN design for each building
+- Dedicated Wireless VLAN design
+- Monitoring-server concept
 
 ## High Availability
-**HSRP** provides virtual default-gateway redundancy for VLAN clients.
 
-**LACP EtherChannel** combines physical links into logical Port-Channels so connectivity can continue through remaining member links when an individual member fails.
-
-**STP** prevents Layer 2 loops and controls redundant forwarding paths through root primary and secondary roles.
+- HSRP provides a virtual default gateway and gateway failover.
+- LACP EtherChannel combines physical links into logical Port-Channels and provides link resilience.
+- STP prevents Layer 2 loops and provides controlled failover across redundant paths.
 
 ## Validation
-Operational commands used to validate the implementation include:
 
-```text
-show ip route
-show standby brief
-show etherchannel summary
-show spanning-tree vlan 10
-show ip ospf neighbor
-show route
-show interface ip brief
-ping
-traceroute
-```
+The implementation was validated using operational checks including show ip route, show standby brief, show etherchannel summary, show spanning-tree vlan 10, show ip ospf neighbor, show route, show interface ip brief, ping, and traceroute.
 
-Validation covered HSRP roles, LACP EtherChannel status, STP root/forwarding roles, OSPF neighbor adjacency and route exchange, VLAN/interface status, and end-to-end connectivity checks.
+Validation focused on HSRP roles, EtherChannel status, STP root and forwarding roles, OSPF neighbor adjacency and route exchange, interface and VLAN status, end-to-end connectivity, ACLs, and ASA behavior.
 
-## Troubleshooting Approach
-Issues were diagnosed before configuration changes by checking:
+## Troubleshooting Method
 
-1. Physical and interface status.
-2. VLAN and trunk connectivity.
-3. STP forwarding state.
-4. HSRP Active/Standby state.
-5. EtherChannel bundle status.
-6. OSPF neighbors and routing tables.
-7. ASA routing and interface reachability.
-
-Changes were made incrementally and verified with Cisco IOS/ASA operational output.
+1. Check physical and interface status.
+2. Verify VLAN membership and trunking.
+3. Check STP state.
+4. Verify HSRP roles.
+5. Verify EtherChannel bundling.
+6. Check OSPF neighbors and routing tables.
+7. Verify ASA interfaces and routes.
+8. Test end-to-end connectivity.
+9. Apply one change at a time and re-validate.
 
 ## Monitoring
-A monitoring-server concept was included in the Server VLAN. Full Zabbix or PRTG deployment is listed as a future real-lab improvement because Packet Tracer does not provide a full implementation environment for those platforms.
 
-## Tools
-- Cisco Packet Tracer
-- Cisco IOS / CLI
-- Cisco ASA
-
-## Skills Demonstrated
-VLANs, trunking, inter-VLAN routing, static routing, DHCP, ACLs, OSPF, HSRP, STP, LACP EtherChannel, Cisco ASA, NAT/PAT, network segmentation, wireless network design, redundancy, troubleshooting, and network validation.
+A monitoring-server concept is reserved in the Server VLAN. A full Zabbix/PRTG deployment was not implemented inside Packet Tracer and is therefore treated as a real-lab extension rather than completed functionality.
 
 ## Repository Structure
-```text
-enterprise-multi-building-network/
-├── README.md
-├── docs/
-│   └── network-documentation.md
-└── evidence/
-    └── README.md
-```
+
+- README.md
+- FINAL.png
+- the final project bkt1.pkt
+- docs/network-documentation.md
+- evidence/README.md
+
+## Evidence
+
+See docs/network-documentation.md for the design documentation and evidence/README.md for the recommended validation screenshots. Only evidence produced from the actual final Packet Tracer configuration should be added.
 
 ## Future Improvements
-- Implement real monitoring using Zabbix or PRTG outside Packet Tracer.
-- Add centralized monitoring and alerting using SNMP in a real lab.
-- Add automated configuration backup procedures.
-- Continue investigating simulated Internet-edge behavior in Packet Tracer.
+
+- Add final validation screenshots.
+- Implement Zabbix or PRTG in a real lab environment.
+- Add SNMP-based monitoring and alerting.
+- Add automated configuration backup.
+- Continue documenting Internet-edge behavior and security validation.
 
 ---
-Built as hands-on technical evidence for entry-level Network Engineering, Network Support, and Network Administration roles.
+
+Portfolio focus: Enterprise Networking • Cisco IOS • Routing & Switching • Network Security • Troubleshooting
